@@ -1,18 +1,31 @@
 
+
+import Image from "next/image"
+
+
 export default function List({ courses }) {
     return (
-        <section className="grid grid-cols-2 gap-4 mb-5">
+        <section className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
             {courses.map(course =>
                 <div
                     key={course.id}
                     className="bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
-                    <div className="md:flex">
-                        <div className="md:flex-shrink-0">
-                            <img
-                                className="h-48 w-full object-cover md:w-48"
-                                src={course.coverImage}
-                                alt={course.title}
-                            />
+                    <div className="flex h-full">
+                        <div className="h-full block">
+                            <div className="relative" style={{
+                                'width': 200,
+                                'height': 230
+                            }}>
+                                <Image
+                                    className="object-cover"
+                                    src={course.coverImage}
+                                    layout="fixed"
+                                    fill
+                                    alt={course.title}
+                                    style={{ 'max-width': null }}
+                                />
+                            </div>
+
                         </div>
                         <div className="p-8">
                             <div
