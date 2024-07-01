@@ -6,12 +6,10 @@ import { getAllCourses } from "@content/courses/fetcher"
 export default function Home() {
 
   const courses = getStaticProps()
-  console.log(courses)
   return (
     <>
       <Hero />
-      {JSON.stringify(courses)}
-      <CourseList />
+      <CourseList courses={courses} />
     </>
   )
 }
