@@ -20,4 +20,6 @@ export default function Course() {
     )
 }
 
+
+
 Course.Layout = BaseLayout

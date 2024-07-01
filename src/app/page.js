@@ -7,12 +7,13 @@ export default function Home() {
 
   const courses = getStaticProps()
   return (
-    <>
+    <BaseLayout>
       <Hero />
       <CourseList courses={courses} />
-    </>
+    </BaseLayout>
   )
 }
+
 
 function getStaticProps() {
   const { data } = getAllCourses()
@@ -20,3 +21,4 @@ function getStaticProps() {
 }
 
 Home.Layout = BaseLayout
+

@@ -9,20 +9,15 @@ export const metadata = {
 };
 
 
-const Noop = ({ children }) => <>{children}</>
 
 
 export default function RootLayout({ children }) {
 
-  const Layout = children.Layout ?? Noop
 
   return (
     <html lang="en">
       <body className={inter.className}>
-
-        <Layout>
-          {children}
-        </Layout>
+        {children}
       </body>
     </html>
   );
