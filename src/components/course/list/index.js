@@ -35,7 +35,7 @@ export default function List({ courses }) {
                                 className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
                                 {course.type}
                             </div>
-                            <Link href={`/courses/${course.slug}`} className="block mt-1 text-lg leading-tight font-medium text-black hover:underline">
+                            <Link href={`/service/courses/${course.slug}`} className="block mt-1 text-lg leading-tight font-medium text-black hover:underline">
                                 {course.title}
                             </Link>
                             <p

@@ -22,8 +22,12 @@ export default function Course(props) {
                     image={course?.coverImage}
                 />
             </div>
-            <Keypoints />
-            <Curriculum />
+            <Keypoints
+                points={course.wsl}
+            />
+            <Curriculum
+                locked={true}
+            />
             <Modal />
         </>
     )
