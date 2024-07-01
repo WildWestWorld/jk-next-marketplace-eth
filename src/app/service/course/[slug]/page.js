@@ -15,10 +15,12 @@ export default function Course(props) {
     const course = getStaticProps(props)
     return (
         <>
-            {course?.title}
-            {props.params.slug}
             <div className="py-4">
-                <CourseHero />
+                <CourseHero
+                    title={course?.title}
+                    description={course?.description}
+                    image={course?.coverImage}
+                />
             </div>
             <Keypoints />
             <Curriculum />
@@ -49,7 +51,6 @@ function getStaticPaths() {
 function getStaticProps({ params }) {
     const { data } = getAllCourses()
     const course = data.filter(c => c.slug === params.slug)[0]
-    console.log(course)
     return course
 }
 
