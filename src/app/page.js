@@ -18,7 +18,6 @@ export default function Home() {
   const courses = getStaticProps()
   return (
     <BaseLayout>
-      {isLoading ? "Is Loading Web3..." : web3 ? "Web 3 Ready!" : "Please install metamask"}
       <Hero />
       <CourseList courses={courses} />
     </BaseLayout>
