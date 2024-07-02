@@ -22,7 +22,7 @@ export default function List({ courses }) {
                                     src={course.coverImage}
 
                                     alt={course.title}
-                                    style={{ 'max-width': null }}
+                                    style={{ 'maxWidth': null }}
                                     fill
                                     sizes="100%"
 
