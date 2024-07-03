@@ -13,7 +13,6 @@ import { getAllCourses } from "@content/courses/fetcher"
 export default function Home() {
 
   const { web3, isLoading } = useWeb3()
-  console.log(web3)
 
   const courses = getStaticProps()
   return (
