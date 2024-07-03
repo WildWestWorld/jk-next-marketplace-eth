@@ -22,7 +22,8 @@ export default function Marketplace() {
                     network={{
                         data: network.data,
                         target: network.target,
-                        isSupported: network.isSupported
+                        isSupported: network.isSupported,
+                        hasFinishedFirstFetch: network.hasFinishedFirstFetch
                     }} />
 
 
