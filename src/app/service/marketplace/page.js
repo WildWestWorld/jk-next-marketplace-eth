@@ -9,7 +9,6 @@ import { useAccount } from "@components/hooks/web3/useAccount"
 export default function Marketplace() {
     const { account } = useAccount()
     const { data } = getStaticProps()
-    console.log(data)
     return (
         <>
             <div className="py-4">
