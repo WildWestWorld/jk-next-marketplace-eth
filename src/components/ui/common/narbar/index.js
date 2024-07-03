@@ -1,6 +1,8 @@
+'use client'
+
 import Link from "next/link"
 
-import { useWeb3 } from "@components/providers"
+import { useWeb3 } from "@components/providers/index.js"
 
 import { Button } from "@components/ui/common"
 
@@ -17,8 +19,8 @@ export default function Navbar() {
                 <nav className="relative" aria-label="Global">
                     <div className="flex justify-between items-center">
                         <div>
-                            <Link href="#" className="font-medium mr-8 text-gray-500 hover:text-gray-900">Home</Link>
-                            <Link href="#" className="font-medium mr-8 text-gray-500 hover:text-gray-900">Marketplace</Link>
+                            <Link href="/" className="font-medium mr-8 text-gray-500 hover:text-gray-900">Home</Link>
+                            <Link href="/service/marketplace" className="font-medium mr-8 text-gray-500 hover:text-gray-900">Marketplace</Link>
                             <Link href="#" className="font-medium mr-8 text-gray-500 hover:text-gray-900">Blogs</Link>
                         </div>
                         <div>
