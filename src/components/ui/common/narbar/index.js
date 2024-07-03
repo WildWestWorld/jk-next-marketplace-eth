@@ -4,7 +4,7 @@ import { useWeb3 } from "@components/providers"
 
 import { Button } from "@components/ui/common"
 
-import { useAccount } from "@components/web3/hooks/useAccount"
+import { useAccount } from "@/components/hooks/web3/useAccount"
 
 export default function Navbar() {
 
