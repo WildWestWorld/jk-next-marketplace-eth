@@ -20,6 +20,7 @@ export default function Marketplace() {
                 {network.data}
                 <WalletBar
                     address={account.data}
+                    network={network.data}
                 />
             </div>
             <CourseList
