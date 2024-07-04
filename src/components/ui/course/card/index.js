@@ -7,15 +7,13 @@ export default function Card({ course, Footer }) {
             key={course.id}
             className="bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
             <div className="flex h-full">
-                <div className="h-full block">
+                <div className="h-full block  flex-1  next-image-wrapper">
                     <div className="relative" style={{
                         'width': 200,
-                        'height': 230
                     }}>
                         <Image
                             className="object-cover"
                             src={course.coverImage}
-
                             alt={course.title}
                             style={{ 'maxWidth': null }}
                             fill
@@ -25,17 +23,17 @@ export default function Card({ course, Footer }) {
                     </div>
 
                 </div>
-                <div className="p-8">
+                <div className="p-8 pb-4 flex-2">
                     <div
                         className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
                         {course.type}
                     </div>
-                    <Link href={`/service/courses/${course.slug}`} className="block mt-1 text-lg leading-tight font-medium text-black hover:underline">
+                    <Link href={`/service/courses/${course.slug}`} className="h-12 block mt-1 text-lg leading-tight font-medium text-black hover:underline">
                         {course.title}
                     </Link>
                     <p
                         className="mt-2 text-gray-500">
-                        {course.description}
+                        {course.description.substring(0, 70)}...
                     </p>
 
                     {Footer &&
