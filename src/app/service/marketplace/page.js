@@ -19,6 +19,7 @@ export default function Marketplace() {
 
     const { eth } = useEthPrice()
 
+    const canPurchaseCourse = !!(account.data && network.isSupported)
 
     const { data } = getStaticProps()
     return (
@@ -49,10 +50,12 @@ export default function Marketplace() {
                     <CourseCard
                         key={course.id}
                         course={course}
+                        disabled={!canPurchaseCourse}
                         Footer={() =>
                             <div className="mt-4">
                                 <Button
                                     onClick={() => setSelectedCourse(course)}
+                                    disabled={!canPurchaseCourse}
                                     variant="lightPurple">
                                     Purchase
                                 </Button>

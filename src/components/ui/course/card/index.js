@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
-export default function Card({ course, Footer }) {
+export default function Card({ course, disabled, Footer }) {
     return (
         <div
             key={course.id}
@@ -12,7 +12,7 @@ export default function Card({ course, Footer }) {
                         'width': 200,
                     }}>
                         <Image
-                            className="object-cover"
+                            className={`object-cover ${disabled && "filter grayscale"}`}
                             src={course.coverImage}
                             alt={course.title}
                             style={{ 'maxWidth': null }}
