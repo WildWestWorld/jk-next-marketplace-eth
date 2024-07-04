@@ -15,6 +15,7 @@ export default function EthRates() {
                             height="35"
                             width="35"
                             src="/small-eth.webp"
+                            alt="webp"
                         />
                         <span className="text-2xl font-bold">
                             = {eth.data}$
@@ -34,6 +35,8 @@ export default function EthRates() {
                             height="35"
                             width="35"
                             src="/small-eth.webp"
+                            alt="webp"
+
                         />
                         <span className="text-2xl font-bold">
                             = 15$
