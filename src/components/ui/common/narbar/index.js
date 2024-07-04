@@ -13,7 +13,7 @@ import { usePathname } from 'next/navigation'
 
 export default function Navbar() {
 
-    const { connect, isLoading, isWeb3Loaded } = useWeb3()
+    const { connect, isLoading, web3 } = useWeb3()
     const { account } = useAccount()
 
     const pathname = usePathname()
@@ -36,7 +36,7 @@ export default function Navbar() {
                                     onClick={connect}>
                                     Loading...
                                 </Button> :
-                                isWeb3Loaded ?
+                                web3 != null ?
                                     account.data ?
                                         <Button
                                             hoverable={false}
