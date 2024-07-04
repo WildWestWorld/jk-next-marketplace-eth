@@ -13,7 +13,7 @@ import { usePathname } from 'next/navigation'
 
 export default function Navbar() {
 
-    const { connect, isLoading, web3 } = useWeb3()
+    const { connect, isLoading, requireInstall } = useWeb3()
     const { account } = useAccount()
 
     const pathname = usePathname()
@@ -36,21 +36,21 @@ export default function Navbar() {
                                     onClick={connect}>
                                     Loading...
                                 </Button> :
-                                web3 != null ?
-                                    account.data ?
+                                account.data ?
+                                    <Button
+                                        hoverable={false}
+                                        className="cursor-default">
+                                        Hi there {account.isAdmin && "Admin"}
+                                    </Button> :
+                                    requireInstall ?
                                         <Button
-                                            hoverable={false}
-                                            className="cursor-default">
-                                            Hi there {account.isAdmin && "Admin"}
+                                            onClick={() => window.open("https://metamask.io/download.html", "_blank")}>
+                                            Install Metamask
                                         </Button> :
                                         <Button
                                             onClick={connect}>
                                             Connect
-                                        </Button> :
-                                    <Button
-                                        onClick={() => window.open("https://metamask.io/download.html", "_blank")}>
-                                        Install Metamask
-                                    </Button>
+                                        </Button>
                             }
                         </div>
                     </div>
