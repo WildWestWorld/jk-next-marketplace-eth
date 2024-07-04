@@ -16,7 +16,9 @@ export default function Marketplace() {
 
     const { canPurchaseCourse } = useWalletInfo()
 
-
+    const purchaseCourse = (order) => {
+        alert(JSON.stringify(order))
+    }
 
 
 
@@ -53,6 +55,7 @@ export default function Marketplace() {
                 <OrderModal
                     course={selectedCourse}
                     onClose={() => setSelectedCourse(null)}
+                    onSubmit={purchaseCourse}
                 />
             }
         </>
