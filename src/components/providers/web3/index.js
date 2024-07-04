@@ -3,18 +3,17 @@ const { createContext, useContext, useEffect, useState, useMemo } = require("rea
 
 import detectEthereumProvider from "@metamask/detect-provider";
 import Web3 from "web3";
-
 import { setupHooks } from "./hooks/setupHooks";
 
 const Web3Context = createContext(null)
 
 export default function Web3Provider({ children }) {
-
     const [web3Api, setWeb3Api] = useState({
         provider: null,
         web3: null,
         contract: null,
-        isLoading: true
+        isLoading: true,
+        hooks: setupHooks()
     })
 
     useEffect(() => {
@@ -27,7 +26,8 @@ export default function Web3Provider({ children }) {
                     provider,
                     web3,
                     contract: null,
-                    isLoading: false
+                    isLoading: false,
+                    hooks: setupHooks(web3, provider)
                 })
             } else {
                 setWeb3Api(api => ({ ...api, isLoading: false }))
@@ -38,23 +38,17 @@ export default function Web3Provider({ children }) {
         loadProvider()
     }, [])
 
-
-
     const _web3Api = useMemo(() => {
-
         const { web3, provider } = web3Api
-
         return {
             ...web3Api,
             isWeb3Loaded: web3 != null,
-            getHooks: () => setupHooks(web3, provider),
             connect: provider ?
                 async () => {
                     try {
                         await provider.request({ method: "eth_requestAccounts" })
-                    } catch (e) {
-                        console.log(e)
-                        // location.reload()
+                    } catch {
+                        location.reload()
                     }
                 } :
                 () => console.error("Cannot connect to Metamask, try to reload your browser please.")
@@ -67,17 +61,12 @@ export default function Web3Provider({ children }) {
         </Web3Context.Provider>
     )
 }
-// 创建自定义钩子，方便使用上下文
-export const useWeb3 = () => {
-    const context = useContext(Web3Context);
-    if (!context) {
-        throw new Error('useWeb3 必须在 Web3Provider 中使用');
-    }
-    return context;
-};
 
+export function useWeb3() {
+    return useContext(Web3Context)
+}
 
 export function useHooks(cb) {
-    const { getHooks } = useWeb3()
-    return cb(getHooks())
+    const { hooks } = useWeb3()
+    return cb(hooks)
 }
