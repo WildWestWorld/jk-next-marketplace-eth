@@ -1,4 +1,5 @@
-import Link from "next/link"
+
+import { ActiveLink } from "@components/ui/common"
 
 export default function Breadcrumbs({ items }) {
 
@@ -9,9 +10,9 @@ export default function Breadcrumbs({ items }) {
                     <li
                         key={item.href}
                         className={`${i == 0 ? "pr-4" : "px-4"} font-medium text-gray-500 hover:text-gray-900`}>
-                        <Link href={item.href}>
+                        <ActiveLink href={item.href}>
                             {item.value}
-                        </Link>
+                        </ActiveLink>
                     </li>
                 )}
             </ol>

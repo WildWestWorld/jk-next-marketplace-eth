@@ -10,3 +10,4 @@ export { default as Breadcrumbs } from "./breadcrumbs"
 export { default as Modal } from "./modal"
 
 export { default as Button } from "./button"
+export { default as ActiveLink } from "./link"
