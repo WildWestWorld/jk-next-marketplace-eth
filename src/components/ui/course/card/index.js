@@ -18,7 +18,6 @@ export default function Card({ course, disabled, Footer }) {
                             style={{ 'maxWidth': null }}
                             fill
                             sizes="100%"
-
                         />
                     </div>
 
