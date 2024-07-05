@@ -16,9 +16,7 @@ export default function OwnedCourses() {
 
     return (
         <>
-            <div className="py-4">
-                <MarketHeader />
-            </div>
+            <MarketHeader />
             <section className="grid grid-cols-1">
                 {ownedCourses.data?.map(course =>
                     <OwnedCourseCard
