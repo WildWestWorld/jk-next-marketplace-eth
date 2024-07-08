@@ -38,8 +38,7 @@ export default function ManagedCourses() {
     const { web3 } = useWeb3()
 
     const { account } = useAccount()
-    const { managedCourses } = useManagedCourses(account.data)
-
+    const { managedCourses } = useManagedCourses(account)
 
     const verifyCourse = (email, { hash, proof }) => {
         const emailHash = web3.utils.sha3(email)
