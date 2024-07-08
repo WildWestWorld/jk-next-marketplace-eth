@@ -7,6 +7,8 @@ import { BaseLayout } from "@components/ui/layout";
 import { MarketHeader } from "@components/ui/marketplace";
 import { getAllCourses } from "@content/courses/fetcher";
 import { useRouter } from "next/navigation";
+import Link from "next/link"
+
 export default function OwnedCourses() {
     const { account } = useAccount()
     const { data } = getStaticProps()
@@ -18,6 +20,22 @@ export default function OwnedCourses() {
         <>
             <MarketHeader />
             <section className="grid grid-cols-1">
+                {ownedCourses.hasInitialResponse && (
+                    !ownedCourses.data || ownedCourses?.data.length === 0
+                ) &&
+                    <div className="w-1/2">
+                        <Message type="warning">
+                            <div>You don't own any courses</div>
+                            <Link href="/marketplace" className="font-normal hover:underline">
+                                <i>Purchase Course</i>
+                            </Link>
+                        </Message>
+                    </div>
+                }
+
+
+
+
                 {ownedCourses.data?.map(course =>
                     <OwnedCourseCard
                         key={course.id}
