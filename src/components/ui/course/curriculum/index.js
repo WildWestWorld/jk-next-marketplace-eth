@@ -1,4 +1,4 @@
-
+import Link from "next/link"
 
 const lectures = [
     "How to init App",
@@ -9,7 +9,7 @@ const lectures = [
     "Safe operator",
 ]
 
-export default function Curriculum({ locked }) {
+export default function Curriculum({ locked, courseState }) {
 
     const statusClass = "px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
     return (
@@ -61,6 +61,34 @@ export default function Curriculum({ locked }) {
                                                     className="text-indigo-600 hover:text-indigo-900">
                                                     {locked ? "Get Access" : "Play"}
                                                 </a>
+
+
+                                                {
+                                                    locked ?
+                                                        <>
+                                                            {courseState === "deactivated" &&
+                                                                <Link href="/service/marketplace" className="text-indigo-600 hover:text-indigo-900">
+
+                                                                    Get Access
+
+                                                                </Link>
+                                                            }
+                                                            {courseState === "purchased" &&
+                                                                <Link href="/service/faq" className="text-yellow-500 hover:text-yellow-900">
+
+
+                                                                    Waiting for activation...
+
+                                                                </Link>
+                                                            }
+                                                        </> :
+                                                        <Link href="/service/watch" className="text-indigo-600 hover:text-indigo-900">
+                                                            Watch
+                                                        </Link>
+                                                }
+
+
+
                                             </td>
                                         </tr>
                                     )}

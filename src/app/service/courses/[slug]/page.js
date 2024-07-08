@@ -30,6 +30,11 @@ export default function Course(props) {
 
 
     const course = getStaticProps(props)
+
+
+    const isLocked =
+        courseState === "purchased" ||
+        courseState === "deactivated"
     return (
         <>
             <div className="py-4">
@@ -67,7 +72,8 @@ export default function Course(props) {
                 </div>
             }
             <Curriculum
-                locked={true}
+                locked={isLocked}
+                courseState={courseState}
             />
             <Modal />
         </>
