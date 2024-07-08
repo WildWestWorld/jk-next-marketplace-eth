@@ -9,8 +9,11 @@ import { getAllCourses } from "@content/courses/fetcher";
 import { useRouter } from "next/navigation";
 import Link from "next/link"
 
+import { useWeb3 } from "@components/providers"
+
 export default function OwnedCourses() {
     const { account } = useAccount()
+    const { requireInstall } = useWeb3()
     const { data } = getStaticProps()
     const router = useRouter()
     const { ownedCourses } = useOwnedCourses(data, account.data)
@@ -31,6 +34,20 @@ export default function OwnedCourses() {
                     </div>
                 }
 
+                {account.isEmpty &&
+                    <div className="w-1/2">
+                        <Message type="warning">
+                            <div>Please connect to Metamask</div>
+                        </Message>
+                    </div>
+                }
+                {requireInstall &&
+                    <div className="w-1/2">
+                        <Message type="warning">
+                            <div>Please install Metamask</div>
+                        </Message>
+                    </div>
+                }
 
 
 
