@@ -31,6 +31,7 @@ export default function Course(props) {
         <>
             <div className="py-4">
                 <CourseHero
+                    hasOwner={!!ownedCourse.data}
                     title={course?.title}
                     description={course?.description}
                     image={course?.coverImage}
