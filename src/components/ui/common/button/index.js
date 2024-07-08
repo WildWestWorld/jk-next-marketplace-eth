@@ -1,4 +1,7 @@
 
+
+
+
 export default function Button({
     children,
     className,
@@ -6,7 +9,6 @@ export default function Button({
     variant = "purple",
     ...rest
 }) {
-
 
     const variants = {
         white: `text-black bg-white`,
@@ -18,6 +20,8 @@ export default function Button({
     return (
         <button
             {...rest}
-            className={`disabled:opacity-50 disabled:cursor-not-allowed xs:px-8 xs:py-3 p-2 border rounded-md text-base font-medium ${className} ${variants[variant]}`}>        </button>
+            className={`disabled:opacity-50 disabled:cursor-not-allowed xs:px-8 xs:py-3 p-2 border rounded-md text-base font-medium ${className} ${variants[variant]}`}>
+            {children}
+        </button>
     )
 }
