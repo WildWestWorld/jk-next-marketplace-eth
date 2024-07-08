@@ -20,6 +20,7 @@ export default function Course(props) {
     const { ownedCourse } = useOwnedCourse(course, account.data)
 
     const courseState = ownedCourse.data?.state
+    // const courseState = "deactivated"
     console.log(ownedCourse)
 
     const connectWeb3 = () => {
