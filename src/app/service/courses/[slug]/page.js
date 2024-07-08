@@ -1,5 +1,5 @@
 'use client'
-
+import { useAccount, useOwnedCourse } from "@components/hooks/web3";
 import { useWeb3 } from "@/components/providers";
 import { Modal } from "@/components/ui/common";
 import {
@@ -15,7 +15,9 @@ import { getAllCourses } from "@content/courses/fetcher";
 
 
 export default function Course(props) {
-    const { web3State, setWeb3State } = useWeb3();
+    const { account } = useAccount()
+    const { ownedCourse } = useOwnedCourse(course, account.data)
+    console.log(ownedCourse)
 
     const connectWeb3 = () => {
 
