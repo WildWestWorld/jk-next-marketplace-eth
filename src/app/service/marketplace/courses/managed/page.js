@@ -69,6 +69,16 @@ export default function ManagedCourses() {
             const course = await contract.methods.getCourseByHash(courseHash).call();
             console.log("Course before activation:", course);
 
+            let currentOwner = await contract.methods.getContractOwner().call()
+            console.log("Contract owner:", currentOwner);
+            console.log("Current account:", account.data);
+
+
+            // await contract.methods.transferOwnership(account.data).send({
+            //     from: currentOwner,
+            //     gas: 300000 // 设置足够的 gas limit
+            // });
+
             await contract.methods
                 .activateCourse(courseHash)
                 .send({
