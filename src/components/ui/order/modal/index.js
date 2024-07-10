@@ -44,6 +44,8 @@ export default function OrderModal({ course, onClose, onSubmit }) {
     useEffect(() => {
         if (!!course) {
             setIsOpen(true)
+
+            console.log(eth)
             setOrder({
                 ...defaultOrder,
                 price: eth.perItem

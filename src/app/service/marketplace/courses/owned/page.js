@@ -27,13 +27,14 @@ export default function OwnedCourses() {
                     <div className="w-1/2">
                         <Message type="warning">
                             <div>You don't own any courses</div>
-                            <Link href="/marketplace" className="font-normal hover:underline">
+                            <Link href="/marketplace">
+
                                 <i>Purchase Course</i>
+
                             </Link>
                         </Message>
                     </div>
                 }
-
                 {account.isEmpty &&
                     <div className="w-1/2">
                         <Message type="warning">
@@ -48,20 +49,15 @@ export default function OwnedCourses() {
                         </Message>
                     </div>
                 }
-
-
-
                 {ownedCourses.data?.map(course =>
                     <OwnedCourseCard
                         key={course.id}
                         course={course}
                     >
-                        {/* <Message>
-              My custom message!
-            </Message> */}
                         <Button
                             onClick={() => router.push(`/service/courses/${course.slug}`)}
                         >
+                            Watch the course
                         </Button>
                     </OwnedCourseCard>
                 )}

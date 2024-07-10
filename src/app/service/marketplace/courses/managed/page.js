@@ -1,3 +1,5 @@
+'use client'
+
 
 
 import { useAdmin, useManagedCourses } from "@components/hooks/web3";
@@ -5,7 +7,7 @@ import { useWeb3 } from "@components/providers";
 import { Button, Message } from "@components/ui/common";
 import { CourseFilter, ManagedCourseCard, OwnedCourseCard } from "@components/ui/course";
 import { MarketHeader } from "@components/ui/marketplace";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const VerificationInput = ({ onVerify }) => {
     const [email, setEmail] = useState("")
@@ -35,7 +37,7 @@ export default function ManagedCourses() {
     const [email, setEmail] = useState("")
 
     const [proofedOwnership, setProofedOwnership] = useState({})
-    const { web3 } = useWeb3()
+    const { web3, contract } = useWeb3()
 
     const { account } = useAdmin({ redirectTo: "/marketplace" })
     const { managedCourses } = useManagedCourses(account)
@@ -43,8 +45,8 @@ export default function ManagedCourses() {
     const verifyCourse = (email, { hash, proof }) => {
         const emailHash = web3.utils.sha3(email)
         const proofToCheck = web3.utils.soliditySha3(
-            { type: "bytes32", value: emailHash },
-            { type: "bytes32", value: hash }
+            { value: emailHash },
+            { value: hash }
         )
 
         proofToCheck === proof ?
@@ -59,9 +61,36 @@ export default function ManagedCourses() {
 
     }
 
+
+
+    const activateCourse = async (courseHash) => {
+        try {
+            console.log("Activating course with hash:", courseHash);
+            const course = await contract.methods.getCourseByHash(courseHash).call();
+            console.log("Course before activation:", course);
+
+            await contract.methods
+                .activateCourse(courseHash)
+                .send({
+                    from: account.data,
+                    gas: 3000000  // 设置一个较大的 gas limit
+                });
+
+            const updatedCourse = await contract.methods.getCourseByHash(courseHash).call();
+            console.log("Course after activation:", updatedCourse);
+        } catch (e) {
+            console.error("Error activating course:", e);
+            if (e.receipt) {
+                console.error("Transaction receipt:", e.receipt);
+            }
+        }
+    };
+
     if (!account.isAdmin) {
         return null
     }
+
+    console.log(managedCourses)
 
     return (
         <>
@@ -93,6 +122,19 @@ export default function ManagedCourses() {
                                 <Message type="danger">
                                     Wrong Proof!
                                 </Message>
+                            </div>
+                        }
+
+                        {course.state === "purchased" &&
+                            <div className="mt-2">
+                                <Button
+                                    onClick={() => activateCourse(course.hash)}
+                                    variant="green">
+                                    Activate
+                                </Button>
+                                <Button variant="red">
+                                    Deactivate
+                                </Button>
                             </div>
                         }
                     </ManagedCourseCard>

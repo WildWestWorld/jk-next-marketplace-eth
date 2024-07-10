@@ -17,6 +17,8 @@ import { getAllCourses } from "@content/courses/fetcher";
 
 export default function Course(props) {
     const { account } = useAccount()
+    const course = getStaticProps(props)
+
     const { ownedCourse } = useOwnedCourse(course, account.data)
 
     const courseState = ownedCourse.data?.state
@@ -30,7 +32,6 @@ export default function Course(props) {
     connectWeb3()
 
 
-    const course = getStaticProps(props)
 
 
     const isLocked =

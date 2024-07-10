@@ -9,23 +9,19 @@ contract CourseMarketplace {
     }
 
     struct Course {
-        uint id; // 32
-        uint price; // 32
-        bytes32 proof; // 32
-        address owner; // 20
-        State state; // 1
+        uint id;
+        uint price;
+        bytes32 proof;
+        address owner;
+        State state;
     }
 
-    // mapping of courseHash to Course data
     mapping(bytes32 => Course) private ownedCourses;
-
-    // mapping of courseID to courseHash
     mapping(uint => bytes32) private ownedCourseHash;
-
-    // number of all courses + id of the course
     uint private totalOwnedCourses;
-
     address payable private owner;
+
+    event Debug(string message);
 
     constructor() {
         setContractOwner(msg.sender);
@@ -50,10 +46,7 @@ contract CourseMarketplace {
         _;
     }
 
-    function purchaseCourse(
-        bytes16 courseId, // 0x00000000000000000000000000003130
-        bytes32 proof // 0x0000000000000000000000000000313000000000000000000000000000003130
-    ) external payable {
+    function purchaseCourse(bytes16 courseId, bytes32 proof) external payable {
         bytes32 courseHash = keccak256(abi.encodePacked(courseId, msg.sender));
 
         if (hasCourseOwnership(courseHash)) {
@@ -74,16 +67,19 @@ contract CourseMarketplace {
 
     function activateCourse(bytes32 courseHash) external onlyOwner {
         if (!isCourseCreated(courseHash)) {
+            emit Debug("Course is not created");
             revert CourseIsNotCreated();
         }
 
         Course storage course = ownedCourses[courseHash];
 
         if (course.state != State.Purchased) {
+            emit Debug("Invalid course state");
             revert InvalidState();
         }
 
         course.state = State.Activated;
+        emit Debug("Course activated successfully");
     }
 
     function transferOwnership(address newOwner) external onlyOwner {
@@ -113,9 +109,7 @@ contract CourseMarketplace {
     }
 
     function isCourseCreated(bytes32 courseHash) private view returns (bool) {
-        return
-            ownedCourses[courseHash].owner !=
-            0x0000000000000000000000000000000000000000;
+        return ownedCourses[courseHash].owner != address(0);
     }
 
     function hasCourseOwnership(
