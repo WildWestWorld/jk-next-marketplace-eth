@@ -3,7 +3,7 @@
 import { CourseCard, CourseList } from "@components/ui/course"
 import { getAllCourses } from "@content/courses/fetcher"
 import { useWalletInfo } from "@components/hooks/web3"
-import { Button } from "@components/ui/common"
+import { Button, Loader } from "@components/ui/common"
 
 import { OrderModal } from "@components/ui/order"
 import { useState } from "react"
@@ -15,8 +15,8 @@ import { useWeb3 } from "@components/providers"
 export default function Marketplace() {
     const [selectedCourse, setSelectedCourse] = useState(null)
 
-    const { web3, contract } = useWeb3()
-    const { canPurchaseCourse, account } = useWalletInfo()
+    const { web3, contract, requireInstall } = useWeb3()
+    const { hasConnectedWallet, isConnecting, account } = useWalletInfo()
 
     const purchaseCourse = async (order) => {
         if (!selectedCourse.id || !account.data || !order.email || !order.price) {
@@ -126,16 +126,38 @@ export default function Marketplace() {
                     <CourseCard
                         key={course.id}
                         course={course}
-                        disabled={!canPurchaseCourse}
-                        Footer={() =>
-                            <div className="mt-4">
+                        disabled={!hasConnectedWallet}
+                        Footer={() => {
+
+                            if (requireInstall) {
+                                return (
+                                    <Button
+                                        disabled={true}
+                                        variant="lightPurple">
+                                        Install
+                                    </Button>
+                                )
+                            }
+
+                            if (isConnecting) {
+                                return (
+                                    <Button
+                                        disabled={true}
+                                        variant="lightPurple">
+                                        <Loader size="sm" />
+                                    </Button>
+                                )
+                            }
+
+                            return (
                                 <Button
                                     onClick={() => setSelectedCourse(course)}
-                                    disabled={!canPurchaseCourse}
+                                    disabled={!hasConnectedWallet}
                                     variant="lightPurple">
                                     Purchase
                                 </Button>
-                            </div>
+                            )
+                        }
                         }
                     />
                 }

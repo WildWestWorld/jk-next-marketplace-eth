@@ -36,7 +36,9 @@ export default function Card({ course, disabled, Footer }) {
                     </p>
 
                     {Footer &&
-                        <Footer />
+                        <div className="mt-2">
+                            <Footer />
+                        </div>
                     }
                 </div>
             </div>
