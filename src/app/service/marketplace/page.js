@@ -2,7 +2,7 @@
 
 import { CourseCard, CourseList } from "@components/ui/course"
 import { getAllCourses } from "@content/courses/fetcher"
-import { useWalletInfo } from "@components/hooks/web3"
+import { useOwnedCourses, useWalletInfo } from "@components/hooks/web3"
 import { Button, Loader } from "@components/ui/common"
 
 import { OrderModal } from "@components/ui/order"
@@ -13,10 +13,13 @@ import { MarketHeader } from "@components/ui/marketplace"
 import { useWeb3 } from "@components/providers"
 
 export default function Marketplace() {
+
+    const { data } = getStaticProps()
     const [selectedCourse, setSelectedCourse] = useState(null)
 
     const { web3, contract, requireInstall } = useWeb3()
     const { hasConnectedWallet, isConnecting, account } = useWalletInfo()
+    const { ownedCourses } = useOwnedCourses(data, account.data)
 
     const purchaseCourse = async (order) => {
         if (!selectedCourse.id || !account.data || !order.email || !order.price) {
@@ -111,7 +114,7 @@ export default function Marketplace() {
     };
 
 
-    const { data } = getStaticProps()
+
     return (
         <>
             <div className="pt-4">
@@ -128,7 +131,6 @@ export default function Marketplace() {
                         course={course}
                         disabled={!hasConnectedWallet}
                         Footer={() => {
-
                             if (requireInstall) {
                                 return (
                                     <Button
@@ -148,6 +150,25 @@ export default function Marketplace() {
                                     </Button>
                                 )
                             }
+
+                            if (!ownedCourses.hasInitialResponse) {
+                                return (
+                                    <div style={{ height: "50px" }}></div>
+                                )
+                            }
+
+                            const owned = ownedCourses.lookup[course.id]
+
+                            if (owned) {
+                                return (
+                                    <Button
+                                        disabled={true}
+                                        variant="green">
+                                        Owned
+                                    </Button>
+                                )
+                            }
+
 
                             return (
                                 <Button
