@@ -138,6 +138,7 @@ export default function Marketplace() {
                                     return (
                                         <Button
                                             disabled={true}
+                                            size="sm"
                                             variant="lightPurple">
                                             Install
                                         </Button>
@@ -147,6 +148,8 @@ export default function Marketplace() {
                                 if (isConnecting) {
                                     return (
                                         <Button
+                                            size="sm"
+
                                             disabled={true}
                                             variant="lightPurple">
                                             <Loader size="sm" />
@@ -166,11 +169,13 @@ export default function Marketplace() {
                                             <div>
                                                 <Button
                                                     disabled={true}
+                                                    size="sm"
                                                     variant="green">
                                                     Owned
                                                 </Button>
                                                 {owned.state === "deactivated" &&
                                                     <Button
+                                                        size="sm"
                                                         disabled={false}
                                                         onClick={() => alert("Re-activating")}
                                                         variant="purple">
@@ -186,6 +191,8 @@ export default function Marketplace() {
                                 return (
                                     <Button
                                         onClick={() => setSelectedCourse(course)}
+                                        size="sm"
+
                                         disabled={!hasConnectedWallet}
                                         variant="lightPurple">
                                         Purchase
