@@ -7,6 +7,7 @@ import { useWeb3 } from "@components/providers";
 import { Button, Message } from "@components/ui/common";
 import { CourseFilter, ManagedCourseCard, OwnedCourseCard } from "@components/ui/course";
 import { MarketHeader } from "@components/ui/marketplace";
+import { normalizeOwnedCourse } from "@utils/normalize";
 import { useEffect, useState } from "react";
 
 
@@ -49,6 +50,8 @@ export default function ManagedCourses() {
     const [email, setEmail] = useState("")
 
     const [proofedOwnership, setProofedOwnership] = useState({})
+    const [searchedCourse, setSearchedCourse] = useState(null)
+
     const { web3, contract } = useWeb3()
 
     const { account } = useAdmin({ redirectTo: "/marketplace" })
@@ -106,12 +109,20 @@ export default function ManagedCourses() {
     }
 
 
-    const searchCourse = courseHash => {
-        if (!courseHash) {
-            return
+    const searchCourse = async hash => {
+        const re = /[0-9A-Fa-f]{6}/g;
+
+        if (hash && hash.length === 66 && re.test(hash)) {
+            const course = await contract.methods.getCourseByHash(hash).call()
+
+            if (course.owner !== "0x0000000000000000000000000000000000000000") {
+                const normalized = normalizeOwnedCourse(web3)({ hash }, course)
+                setSearchedCourse(normalized)
+                return
+            }
         }
 
-        alert(courseHash)
+        setSearchedCourse(null)
     }
 
     if (!account.isAdmin) {
