@@ -16,6 +16,8 @@ export default function Marketplace() {
 
     const { data } = getStaticProps()
     const [selectedCourse, setSelectedCourse] = useState(null)
+    const [isNewPurchase, setIsNewPurchase] = useState(true)
+
 
     const { web3, contract, requireInstall } = useWeb3()
     const { hasConnectedWallet, isConnecting, account } = useWalletInfo()
@@ -178,7 +180,10 @@ export default function Marketplace() {
                                                         <Button
                                                             size="sm"
                                                             disabled={false}
-                                                            onClick={() => alert("Re-activating")}
+                                                            onClick={() => {
+                                                                setIsNewPurchase(false)
+                                                                setSelectedCourse(course)
+                                                            }}
                                                             variant="purple">
                                                             Fund to Activate
                                                         </Button>
@@ -209,7 +214,12 @@ export default function Marketplace() {
             {selectedCourse &&
                 <OrderModal
                     course={selectedCourse}
-                    onClose={() => setSelectedCourse(null)}
+                    isNewPurchase={isNewPurchase}
+
+                    onClose={() => {
+                        setSelectedCourse(null)
+                        setIsNewPurchase(true)
+                    }}
                     onSubmit={purchaseCourse}
                 />
             }
