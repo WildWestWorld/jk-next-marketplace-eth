@@ -8,6 +8,7 @@ import { Button, Loader, Message } from "@components/ui/common"
 import { OrderModal } from "@components/ui/order"
 import { useState } from "react"
 
+import { withToast } from "@utils/toast"
 
 import { MarketHeader } from "@components/ui/marketplace"
 import { useWeb3 } from "@components/providers"
@@ -24,7 +25,21 @@ export default function Marketplace() {
     const { ownedCourses } = useOwnedCourses(data, account.data)
     console.warn(ownedCourses)
     const purchaseCourse = async order => {
-        const hexCourseId = web3.utils.utf8ToHex(selectedCourse.id)
+        const utf8ToBytes16 = (str) => {
+            let hexStr = web3.utils.utf8ToHex(str);
+            // Remove '0x' prefix
+            hexStr = hexStr.slice(2);
+            if (hexStr.length > 32) { // 32 hex characters for bytes16
+                hexStr = hexStr.slice(0, 32); // Trim to bytes16 length
+            } else {
+                hexStr = hexStr.padEnd(32, '0'); // Pad to bytes16 length
+            }
+            return '0x' + hexStr;
+        }
+
+        const hexCourseId = utf8ToBytes16(selectedCourse.id);
+        console.log("Padded hex:", hexCourseId);
+
         const orderHash = web3.utils.soliditySha3(
             { type: "bytes16", value: hexCourseId },
             { type: "address", value: account.data }
@@ -54,8 +69,8 @@ export default function Marketplace() {
                 proof
             ).send({ from: account.data, value })
             console.log(result)
-        } catch {
-            console.error("Purchase course: Operation has failed.")
+        } catch (err) {
+            console.error("Purchase course: Operation has failed.", err)
         }
     }
 
@@ -71,12 +86,24 @@ export default function Marketplace() {
     }
 
 
+    const notify = () => {
+        // const resolveWithSomeData = new Promise(resolve => setTimeout(() => resolve({
+        //   transactionHash: "0x610ebf769141514a711bb9ef01c09340f14fe28c3709a3c12c0c05dd5e7c668a"
+        // }), 3000));
+        const resolveWithSomeData = new Promise(
+            (resolve, reject) => setTimeout(() => reject(new Error("Some Error")), 3000))
+
+        withToast(resolveWithSomeData)
+    }
+
 
     return (
         <>
             <div className="pt-4">
                 <MarketHeader />
-
+                <Button onClick={notify}>
+                    Notify!
+                </Button>
 
             </div>
             <CourseList

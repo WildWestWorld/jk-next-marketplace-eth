@@ -1,5 +1,6 @@
 const HDWalletProvider = require("@truffle/hdwallet-provider")
-const keys = require("./keys.json")
+const keys = require("./keys.json");
+const { timeoutBlocks } = require("@truffle/contract/lib/contract/properties");
 
 module.exports = {
 
@@ -16,8 +17,9 @@ module.exports = {
       gas: 5500000, // Gas Limit, How much gas we are willing to spent
       gasPrice: 20000000000, // how much we are willing to spent for unit of gas
       confirmations: 2, // number of blocks to wait between deployment
-      timeoutBlocks: 200, // number of blocks before deployment times out
-      skipDryRun: true
+      skipDryRun: true,
+      networkCheckTimeoutnetworkCheckTimeout: 10000,
+      timeoutBlocks: 200
     },
 
   },

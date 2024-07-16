@@ -3,7 +3,8 @@ import useSWR from "swr"
 
 
 const adminAddresses = {
-    "0xcf4aa76f622f59890250bd9f0eefcc59e8e7623ef24e62e10deb0ae4437f07a2": true
+    "0xcf4aa76f622f59890250bd9f0eefcc59e8e7623ef24e62e10deb0ae4437f07a2": true,
+    "0x649ea777c1e1a389313a775a8999ed2c8914ca49a6652f7c25aa591721bf1285": true
 }
 
 

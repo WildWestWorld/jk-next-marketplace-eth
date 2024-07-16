@@ -9,7 +9,6 @@ import { getAllCourses } from "@content/courses/fetcher"
 
 
 
-
 export default function Home() {
 
   const { web3, isLoading } = useWeb3()
