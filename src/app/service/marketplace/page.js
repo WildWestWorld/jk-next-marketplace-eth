@@ -59,18 +59,30 @@ export default function Marketplace() {
                 { value: orderHash }
             )
 
-            withToast(_purchaseCourse(hexCourseId, proof, value))
+            withToast(_purchaseCourse({ hexCourseId, proof, value }, course))
         } else {
-            withToast(_repurchaseCourse(orderHash, value))
+            withToast(_repurchaseCourse({ courseHash: orderHash, value }, course))
         }
     }
 
-    const _purchaseCourse = async (hexCourseId, proof, value) => {
+    const _purchaseCourse = async ({ hexCourseId, proof, value }, course) => {
         try {
             const result = await contract.methods.purchaseCourse(
                 hexCourseId,
                 proof
             ).send({ from: account.data, value })
+
+            ownedCourses.mutate([
+                ...ownedCourses.data, {
+                    ...course,
+                    proof,
+                    state: "purchased",
+                    owner: account.data,
+                    price: value
+                }
+            ])
+
+
             return result
         } catch (err) {
             throw new Error(err.message)
@@ -80,12 +92,25 @@ export default function Marketplace() {
         }
     }
 
-    const _repurchaseCourse = async (courseHash, value) => {
+    const _repurchaseCourse = async ({ courseHash, value }, course) => {
         try {
             const result = await contract.methods.repurchaseCourse(
                 courseHash
             ).send({ from: account.data, value })
-            console.log(result)
+
+
+            const index = ownedCourses.data.findIndex(c => c.id === course.id)
+
+            if (index >= 0) {
+                ownedCourses.data[index].state = "purchased"
+                ownedCourses.mutate(ownedCourses.data)
+            } else {
+                ownedCourses.mutate()
+
+            }
+
+
+            return result
         } catch (err) {
             throw new Error(err.message)
         } finally {
@@ -149,7 +174,10 @@ export default function Marketplace() {
                                             variant="white"
                                             disabled={true}
                                             size="sm">
-                                            Loading State...
+                                            {hasConnectedWallet ?
+                                                "Loading State..." :
+                                                "Connect"
+                                            }
                                         </Button>
                                     )
                                 }
@@ -161,7 +189,7 @@ export default function Marketplace() {
                                             <div className="flex">
                                                 <Button
                                                     onClick={() => alert("You are owner of this course.")}
-                                                    disabled={false}
+                                                    disabled={isBusy}
                                                     size="sm"
                                                     variant="white">
                                                     Yours &#10004;
@@ -170,14 +198,19 @@ export default function Marketplace() {
                                                     <div className="ml-1">
                                                         <Button
                                                             size="sm"
-                                                            disabled={false}
+                                                            disabled={isBusy}
                                                             onClick={() => {
                                                                 setIsNewPurchase(false)
                                                                 setSelectedCourse(course)
                                                             }}
                                                             variant="purple">
-                                                            Fund to Activate
-                                                        </Button>
+                                                            {isBusy ?
+                                                                <div className="flex">
+                                                                    <Loader size="sm" />
+                                                                    <div className="ml-2">In Progress</div>
+                                                                </div> :
+                                                                <div>Fund to Activate</div>
+                                                            }                                                        </Button>
                                                     </div>
                                                 }
                                             </div>

@@ -9,6 +9,7 @@ import { CourseFilter, ManagedCourseCard, OwnedCourseCard } from "@components/ui
 import { MarketHeader } from "@components/ui/marketplace";
 import { normalizeOwnedCourse } from "@utils/normalize";
 import { useEffect, useState } from "react";
+import { withToast } from "@utils/toast";
 
 
 // BEFORE TX BALANCE -> 85,233893735999999996
@@ -89,24 +90,27 @@ export default function ManagedCourses() {
             console.log("Contract owner:", currentOwner);
             console.log("Current account:", account.data);
 
-            await contract.methods[method](courseHash)
+            const result = await contract.methods[method](courseHash)
                 .send({
                     from: account.data,
                     gas: 3000000  // 设置一个较大的 gas limit
                 })
+            return result
         } catch (e) {
             console.error(e.message)
+            throw new Error(e.message)
+
         }
     }
 
 
 
     const activateCourse = async courseHash => {
-        changeCourseState(courseHash, "activateCourse")
+        withToast(changeCourseState(courseHash, "activateCourse"))
     }
 
     const deactivateCourse = async courseHash => {
-        changeCourseState(courseHash, "deactivateCourse")
+        withToast(changeCourseState(courseHash, "deactivateCourse"))
     }
 
 
